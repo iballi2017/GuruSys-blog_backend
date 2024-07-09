@@ -10,6 +10,7 @@ import { handleError } from './helpers/error';
 import httpLogger from './middlewares/httpLogger';
 import router from './routes/index';
 import ApiRoutes from './app_api/routes/index';
+import env from './config/env';
 
 
 /**DB Connection */
@@ -37,7 +38,7 @@ const errorHandler: express.ErrorRequestHandler = (err, _req, res) => {
 };
 app.use(errorHandler);
 
-const port = process.env.PORT || '8000';
+const port = env.PORT || '8000';
 app.set('port', port);
 
 const server = http.createServer(app);

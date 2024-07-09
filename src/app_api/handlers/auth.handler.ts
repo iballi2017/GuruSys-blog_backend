@@ -6,11 +6,8 @@ import env from '../../config/env';
 // import bcrypt from 'bcryptjs';
 
 export const handle_Login = async (_req: express.Request, res: express.Response) => {
-  /**extract request body (form data) */
   const data: any = _req.body;
-  console.log('data: ', data);
   const { email, password } = data;
-  // console.log("req.headers.origin: ", req.headers.origin)
 
   try {
     await userModel.ValidateUser.validateAsync({ email, password });
@@ -26,11 +23,9 @@ export const handle_Login = async (_req: express.Request, res: express.Response)
     // const match = await bcrypt.compare(password, foundUser.password);
     const config_password = new ConfigPassword(password, foundUser.password);
     const match = await config_password.match();
-    console.log('match: ', match);
 
     if (match) {
       const roles: any = Object.values(foundUser.roles).filter(Boolean);
-      console.log('roles: ', roles);
       /**Create JWT */
       let accessToken = '';
       if (!data.rememberMe) {

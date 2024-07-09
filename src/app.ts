@@ -4,6 +4,8 @@ import path from 'path';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import http from 'http';
+import cors from 'cors';
+
 
 dotenv.config({ path: path.join(__dirname, '../.env') });
 import { handleError } from './helpers/error';
@@ -11,6 +13,7 @@ import httpLogger from './middlewares/httpLogger';
 import router from './routes/index';
 import ApiRoutes from './app_api/routes/index';
 import env from './config/env';
+import corsOptions from './config/cors-options';
 
 
 /**DB Connection */
@@ -22,6 +25,10 @@ app.use(httpLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// Enable CORS
+app.use(cors(corsOptions));
+
 
 app.use('/', router);
 /**API server */

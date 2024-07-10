@@ -1,0 +1,11 @@
+{
+    "email":"b@b.com",
+    "password":"b",
+    "rememberMe": false
+}
+
+{
+    "email":"iballi@gmail.com",
+    "password":"iballi",
+    "rememberMe": false
+}

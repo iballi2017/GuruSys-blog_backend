@@ -14,12 +14,16 @@ export const userCredentialsFromRefeshToken = async (_req: express.Request, res:
   const envRefreshToken: string | any = env.REFRESH_TOKEN_SECRET ? env.REFRESH_TOKEN_SECRET : env.REFRESH_TOKEN_SECRET;
 
   const cookies = _req.cookies;
+
+  // if (!cookies || !cookies.jwt)
+  //   res.status(401).json({
+  //     message: 'Auth failed',
+  //   });
   if (!cookies?.jwt) return res.sendStatus(401);
 
   const refreshToken = cookies.jwt;
 
   const foundUser = await userModel.User.findOne({ refreshToken });
-  console.log('foundUser: ', foundUser);
   if (!foundUser) return res.sendStatus(404);
 
   jwt.verify(refreshToken, envRefreshToken, (err: any, decoded: any) => {

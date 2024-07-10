@@ -1,4 +1,5 @@
 import express from 'express';
+import userModel from '../models/user.model';
 // import env from 'src/config/env';
 
 export const handle_GetAllPosts = async (_req: express.Request, res: express.Response) => {
@@ -10,6 +11,12 @@ export const handle_PostBlog = async (_req: express.Request, res: express.Respon
   console.log('userId: ', userId);
   const data = _req.body;
   console.log('data: ', data);
+
+  const result = await userModel.User.create({
+    author: data.userId,
+    title: data.title,
+    description: data.description,
+  })
 
   res.send('POST blog request');
 };

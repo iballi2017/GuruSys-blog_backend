@@ -17,8 +17,8 @@ const PostSchema: Schema = new Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   // category: [mongoose.Schema.Types.ObjectId],
   category:{
-    type: [String],
-    default: ['uncategorized']
+    type: [mongoose.Schema.Types.ObjectId],
+    // default: ['uncategorized']
   },
   approved: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },

@@ -3,7 +3,7 @@ import userModel from '../models/user.model';
 // const bcrypt = require("bcryptjs");
 import bcrypt from 'bcryptjs';
 
-export const handle_Register = async (_req: express.Request, res: express.Response) => {
+export const handle_Register = async (_req: express.Request, res: express.Response, next: express.NextFunction) => {
   // const data = _req.body;
   const { name, email, password } = _req.body;
 
@@ -35,9 +35,6 @@ export const handle_Register = async (_req: express.Request, res: express.Respon
       });
     }
   } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-      data: email,
-    });
+    next(error);
   }
 };

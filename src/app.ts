@@ -8,7 +8,7 @@ import cors from 'cors';
 
 
 dotenv.config({ path: path.join(__dirname, '../.env') });
-import { handleError } from './helpers/error';
+import { handleError } from './middlewares/error-handler';
 import httpLogger from './middlewares/httpLogger';
 import router from './routes/index';
 import ApiRoutes from './app_api/routes/index';
@@ -20,6 +20,11 @@ import corsOptions from './config/cors-options';
 import("./config/db");
 
 const app: express.Application = express();
+
+const port = env.PORT || '8000';
+app.set('port', port);
+
+const server = http.createServer(app);
 
 app.use(httpLogger);
 app.use(express.json());
@@ -39,18 +44,14 @@ app.use((_req, _res, next) => {
   next(createError(404));
 });
 
+console.log("++++++++++++++++++++++++++++++++++BEFORE ERROR HANDLER+++++++++++++++++++++++++++++++++++++++++++")
 // error handler
-const errorHandler: express.ErrorRequestHandler = (err, _req, res) => {
-  handleError(err, res);
-};
-app.use(errorHandler);
+app.use(handleError);
+console.log("++++++++++++++++++++++++++++++++++AFTER ERROR HANDLER+++++++++++++++++++++++++++++++++++++++++++")
 
-const port = env.PORT || '8000';
-app.set('port', port);
-
-const server = http.createServer(app);
 
 function onError(error: { syscall: string; code: string }) {
+  console.log("error$$$ ", error)
   if (error.syscall !== 'listen') {
     throw error;
   }

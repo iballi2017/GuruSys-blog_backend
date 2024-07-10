@@ -8,6 +8,8 @@ import env from '../../config/env';
 export const handle_Login = async (_req: express.Request, res: express.Response) => {
   const data: any = _req.body;
   const { email, password } = data;
+  const envRefreshToken: string | any = env.REFRESH_TOKEN_SECRET ? env.REFRESH_TOKEN_SECRET : env.REFRESH_TOKEN_SECRET;
+  const envAccessToken: string | any = env.ACCESS_TOKEN_SECRET ? env.ACCESS_TOKEN_SECRET : env.ACCESS_TOKEN_SECRET;
 
   try {
     await userModel.ValidateUser.validateAsync({ email, password });
@@ -32,6 +34,7 @@ export const handle_Login = async (_req: express.Request, res: express.Response)
         accessToken = jwt.sign(
           {
             userInfo: {
+              name: foundUser.name,
               email: foundUser.email,
               user_id: foundUser._id,
               roles: roles,
@@ -45,18 +48,19 @@ export const handle_Login = async (_req: express.Request, res: express.Response)
         accessToken = jwt.sign(
           {
             userInfo: {
+              name: foundUser.name,
               email: foundUser.email,
               user_id: foundUser._id,
               roles: roles,
             },
           },
-          env.ACCESS_TOKEN_SECRET ? env.ACCESS_TOKEN_SECRET : '',
+          envAccessToken,
           { expiresIn: '7d' },
           // { expiresIn: 60 }
         );
       }
 
-      let refreshToken = jwt.sign({ email: foundUser.email }, env.REFRESH_TOKEN_SECRET ? env.REFRESH_TOKEN_SECRET : '', { expiresIn: '1d' });
+      let refreshToken = jwt.sign({ email: foundUser.email }, envRefreshToken, { expiresIn: '1d' });
 
       /**Saving refreshToken with current user */
       foundUser.refreshToken = refreshToken;
@@ -81,6 +85,4 @@ export const handle_Login = async (_req: express.Request, res: express.Response)
       data: email,
     });
   }
-
-  res.send('Login user request');
 };

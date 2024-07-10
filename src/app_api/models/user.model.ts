@@ -35,7 +35,7 @@ const userJoiSchema: ObjectSchema<User> = Joi.object({
   password: Joi.string().optional(),
 });
 
-// export default mongoose.model<User>('User', UserSchema);
+
 export default {
   ValidateUser: userJoiSchema,
   User: mongoose.model<User>('User', UserSchema),

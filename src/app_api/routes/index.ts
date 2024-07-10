@@ -16,7 +16,7 @@ router.route('/auth/refresh-token').get(handle_refreshToken);
 
 /* POST Blogpost. */
 // router.post('/', handle_PostBlog);
-router.route('/blog-post').post(editorCredentialsFromRefeshToken, handle_PostBlog).get(editorCredentialsFromRefeshToken, handle_GetAllPosts);
+router.route('/blog-post').post(editorCredentialsFromRefeshToken, handle_PostBlog).get(handle_GetAllPosts);
 router
   .route('/blog-post/:postId')
   .get(handle_GetPostById)

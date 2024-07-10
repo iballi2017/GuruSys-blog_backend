@@ -1,4 +1,9 @@
+
 {
+    "name":"b",
+    "email":"b@b.com",
+    "password": "b"
+}{
     "email":"b@b.com",
     "password":"b",
     "rememberMe": false

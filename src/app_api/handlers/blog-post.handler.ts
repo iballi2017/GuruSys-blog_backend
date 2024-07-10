@@ -13,8 +13,6 @@ export const handle_PostBlog = async (_req: express.Request, res: express.Respon
       updatedBy: userId,
     });
 
-    console.log('result: ', result);
-
     res.status(201).json({
       message: 'Post created!',
       result,

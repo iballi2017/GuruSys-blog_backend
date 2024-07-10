@@ -5,7 +5,7 @@ import { ConfigPassword } from '../../helpers/config-password';
 import env from '../../config/env';
 // import bcrypt from 'bcryptjs';
 
-export const handle_Login = async (_req: express.Request, res: express.Response) => {
+export const handle_Login = async (_req: express.Request, res: express.Response, next: express.NextFunction) => {
   const data: any = _req.body;
   const { email, password } = data;
   const envRefreshToken: string | any = env.REFRESH_TOKEN_SECRET ? env.REFRESH_TOKEN_SECRET : env.REFRESH_TOKEN_SECRET;
@@ -80,9 +80,6 @@ export const handle_Login = async (_req: express.Request, res: express.Response)
       return;
     }
   } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-      data: email,
-    });
+    next(error);
   }
 };

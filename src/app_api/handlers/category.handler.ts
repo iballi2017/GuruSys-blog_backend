@@ -2,7 +2,7 @@ import express from 'express';
 import blogCategoryModel from '../models/blog-category.model';
 import userModel from '../models/user.model';
 
-export const handle_PostCategory = async (_req: express.Request, res: express.Response) => {
+export const handle_PostCategory = async (_req: express.Request, res: express.Response, next: express.NextFunction) => {
   const data: any = _req.body;
   const { title, description } = data;
   const cookies: any = _req.cookies;
@@ -39,26 +39,38 @@ export const handle_PostCategory = async (_req: express.Request, res: express.Re
         result,
       });
   } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-      formData: title,
-    });
+    next(error);
   }
 };
 
-export const handle_DeleteCategoryCategoryId = async (_req: express.Request, res: express.Response) => {
+export const handle_GetCategoryList = async (_req: express.Request, res: express.Response, next: express.NextFunction) => {
+  try {
+    const result = await blogCategoryModel.Category.find();
+    res.status(200).json({
+      result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const handle_DeleteCategoryCategoryId = async (_req: express.Request, res: express.Response, next: express.NextFunction) => {
   const categoryId = _req.params.categoryId;
 
-  const foundCategory = await blogCategoryModel.Category.findOne({ _id: categoryId });
+  try {
+    const foundCategory = await blogCategoryModel.Category.findOne({ _id: categoryId });
 
-  if (!foundCategory)
-    return res.status(404).json({
-      message: 'Category not found!',
-    });
+    if (!foundCategory)
+      return res.status(404).json({
+        message: 'Category not found!',
+      });
 
-  const result = await blogCategoryModel.Category.deleteOne({ _id: categoryId });
-  if (result)
-    return res.status(200).json({
-      message: 'Category deleted!',
-    });
+    const result = await blogCategoryModel.Category.deleteOne({ _id: categoryId });
+    if (result)
+      return res.status(200).json({
+        message: 'Category deleted!',
+      });
+  } catch (error) {
+    next(error);
+  }
 };

@@ -1,37 +1,40 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import Joi, { ObjectSchema } from 'joi';
-import { ROLE_LIST } from '../../config/role-list';
 
-export interface User extends Document {
+export interface BlogPost extends Document {
   title: string;
-  description: string;
+  body: string;
   author: string;
   category?: string[];
   approved?: boolean;
   createdAt: Date;
+  updatedBy: string;
+  updatedAt: Date;
 }
 
 const PostSchema: Schema = new Schema({
   title: { type: String, required: true },
-  description: { type: String, required: true, unique: true },
+  body: { type: String, required: true, unique: true },
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   // category: [mongoose.Schema.Types.ObjectId],
-  category:{
+  category: {
     type: [mongoose.Schema.Types.ObjectId],
     // default: ['uncategorized']
   },
   approved: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
+  updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 // Joi schema for validation
-const postJoiSchema: ObjectSchema<User> = Joi.object({
+const postJoiSchema: ObjectSchema<BlogPost> = Joi.object({
   title: Joi.string().required().optional(),
-  description: Joi.string().email().required(),
+  body: Joi.string().email().required(),
   author: Joi.string().optional(),
 });
 
 export default {
   ValidatePost: postJoiSchema,
-  User: mongoose.model<User>('User', PostSchema),
+  BlogPost: mongoose.model<BlogPost>('BlogPost', PostSchema),
 };

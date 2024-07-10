@@ -41,8 +41,8 @@ export const handle_Login = async (_req: express.Request, res: express.Response,
             },
           },
           env.ACCESS_TOKEN_SECRET ? env.ACCESS_TOKEN_SECRET : '',
-          // { expiresIn: "1hr" }
-          { expiresIn: 15 },
+          { expiresIn: "1hr" }
+          // { expiresIn: 15 },
         );
       } else {
         accessToken = jwt.sign(

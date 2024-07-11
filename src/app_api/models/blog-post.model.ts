@@ -5,7 +5,6 @@ export interface BlogPost extends Document {
   title: string;
   body: string;
   author: string;
-  category?: string[];
   approved?: boolean;
   createdAt: Date;
   updatedBy: string;
@@ -14,13 +13,8 @@ export interface BlogPost extends Document {
 
 const PostSchema: Schema = new Schema({
   title: { type: String, required: true },
-  body: { type: String, required: true, unique: true },
+  body: { type: String, required: true, maxlength: 2000 },
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  // category: [mongoose.Schema.Types.ObjectId],
-  category: {
-    type: [mongoose.Schema.Types.ObjectId],
-    // default: ['uncategorized']
-  },
   approved: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },

@@ -25,6 +25,7 @@ export const editorCredentialsFromRefeshToken = async (_req: express.Request, re
   const refreshToken = cookies.jwt;
 
   const foundUser: any = await userModel.User.findOne({ refreshToken });
+  console.log("foundUser: ", {foundUser})
   if (!foundUser) return res.sendStatus(404);
 
   const roles = Object.values(foundUser.roles).filter(Boolean);

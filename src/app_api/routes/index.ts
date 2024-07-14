@@ -5,6 +5,8 @@ import { handle_Login } from '../handlers/auth.handler';
 import { handle_Logout } from '../handlers/logout.handler';
 import { handle_refreshToken } from '../handlers/refresh-token.handler';
 import { editorCredentialsFromRefeshToken } from '../../middlewares/editor-credentials-from-refresh-token';
+import { paginate } from '../../helpers/pagination';
+import blogPostModel from '../models/blog-post.model';
 
 const router = express.Router();
 
@@ -16,7 +18,7 @@ router.route('/auth/refresh-token').get(handle_refreshToken);
 
 /* POST Blogpost. */
 // router.post('/', handle_PostBlog);
-router.route('/blog-post').post(editorCredentialsFromRefeshToken, handle_PostBlog).get(handle_GetAllPosts);
+router.route('/blog-post').post(editorCredentialsFromRefeshToken, handle_PostBlog).get(paginate(blogPostModel.BlogPost), handle_GetAllPosts);
 router
   .route('/blog-post/:postId')
   .get(handle_GetPostById)

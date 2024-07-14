@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 declare module 'express-serve-static-core' {
   interface Response {
     paginatedResults?: any;
-    count?:any;
+    count?: any;
   }
 }
 
@@ -15,7 +15,6 @@ export const paginate = (model: Model<any>) => async (req: Request, res: Respons
   try {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-
     const results: any = {};
 
     let count: any = await model.countDocuments().exec();
@@ -37,8 +36,6 @@ export const paginate = (model: Model<any>) => async (req: Request, res: Respons
     results.results = await model.find().limit(limit).skip(startIndex).exec();
     res.paginatedResults = results;
     res.count = count;
-    
-  console.log('PASS paginate!!!!!!!!!!!!!!!!!!!!!!!!!!');
     next();
   } catch (e) {
     res.status(500).json({ message: e.message });

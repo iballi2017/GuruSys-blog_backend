@@ -44,10 +44,8 @@ app.use((_req, _res, next) => {
   next(createError(404));
 });
 
-console.log("++++++++++++++++++++++++++++++++++BEFORE ERROR HANDLER+++++++++++++++++++++++++++++++++++++++++++")
 // error handler
 app.use(handleError);
-console.log("++++++++++++++++++++++++++++++++++AFTER ERROR HANDLER+++++++++++++++++++++++++++++++++++++++++++")
 
 
 function onError(error: { syscall: string; code: string }) {

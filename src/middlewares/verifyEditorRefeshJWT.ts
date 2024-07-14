@@ -14,11 +14,8 @@ declare module 'express-serve-static-core' {
 
 export const verifyEditorRefeshJWT = async (_req: express.Request, res: express.Response, next: express.NextFunction) => {
   const envRefreshToken: string | any = env.REFRESH_TOKEN_SECRET ? env.REFRESH_TOKEN_SECRET : env.REFRESH_TOKEN_SECRET;
-
-  console.log('verifyEditorRefeshJWT+++++++!!!');
-
   const cookies = _req.cookies;
-  console.log('cookies: ', cookies);
+
   if (!cookies?.jwt)
     return res.status(401).json({
       message: 'Auth failed!',
@@ -27,7 +24,7 @@ export const verifyEditorRefeshJWT = async (_req: express.Request, res: express.
   const refreshToken = cookies.jwt;
 
   const foundUser: any = await userModel.User.findOne({ refreshToken });
-  console.log('foundUser: ', { foundUser });
+
   if (!foundUser) return res.sendStatus(404);
 
   const roles = Object.values(foundUser.roles).filter(Boolean);

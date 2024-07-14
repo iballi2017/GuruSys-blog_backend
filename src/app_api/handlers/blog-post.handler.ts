@@ -24,10 +24,11 @@ export const handle_PostBlog = async (_req: express.Request, res: express.Respon
 
 export const handle_GetAllPosts = async (_req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
-    const result = await blogPostModel.BlogPost.find();
-    console.log("handle_GetAllPosts result: ", result)
-    console.log("_____________________________+++++++++++++++++++++++++++_______________________________________")
-    console.log("handle_GetAllPosts res.paginatedResults: ", res.paginatedResults, res.count)
+    // const result = await blogPostModel.BlogPost.find();
+    // console.log("handle_GetAllPosts result: ", result)
+    // console.log("_____________________________+++++++++++++++++++++++++++_______________________________________")
+    // console.log("handle_GetAllPosts res.paginatedResults: ", res.paginatedResults, res.count)
+    await blogPostModel.BlogPost.find();
     res.status(200).json({
       message: 'LIST OF POSTS',
       totalSize: res.count,

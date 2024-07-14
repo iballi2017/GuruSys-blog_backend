@@ -12,18 +12,14 @@ declare module 'express-serve-static-core' {
 
 export const verifyRefreshJWT = async (_req: express.Request, res: express.Response, next: express.NextFunction) => {
   const envRefreshToken: string | any = env.REFRESH_TOKEN_SECRET ? env.REFRESH_TOKEN_SECRET : env.REFRESH_TOKEN_SECRET;
-
-  console.log('verifyRefreshJWT+++++++^^^');
-
   const cookies = _req.cookies;
+
   if (!cookies?.jwt)
     return res.status(401).json({
       message: 'Auth failed!',
     });
 
   const refreshToken = cookies.jwt;
-  console.log('refreshToken: ', refreshToken);
-
   const foundUser = await userModel.User.findOne({ refreshToken });
   if (!foundUser) return res.sendStatus(404);
 

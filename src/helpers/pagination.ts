@@ -38,6 +38,7 @@ export const paginate = (model: Model<any>) => async (req: Request, res: Respons
     res.paginatedResults = results;
     res.count = count;
     
+  console.log('PASS paginate!!!!!!!!!!!!!!!!!!!!!!!!!!');
     next();
   } catch (e) {
     res.status(500).json({ message: e.message });

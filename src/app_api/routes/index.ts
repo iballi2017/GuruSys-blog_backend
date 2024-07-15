@@ -20,7 +20,14 @@ router.route('/auth/refresh-token').get(handle_refreshToken);
 
 /* POST Blogpost. */
 // router.post('/', handle_PostBlog);
-router.route('/blog-post').post(verifyEditorRefeshJWT, handle_PostBlog).get(verifyJWT, paginate(blogPostModel.BlogPost), handle_GetAllPosts);
-router.route('/blog-post/:postId').get(handle_GetPostById).put(verifyEditorRefeshJWT, handle_UpdatePostById).delete(verifyEditorRefeshJWT, handle_DeletePostById);
+router
+  .route('/blog-post')
+  .post(verifyJWT, verifyEditorRefeshJWT, handle_PostBlog)
+  .get(verifyJWT, paginate(blogPostModel.BlogPost), handle_GetAllPosts);
+router
+  .route('/blog-post/:postId')
+  .get(handle_GetPostById)
+  .put(verifyJWT, verifyEditorRefeshJWT, handle_UpdatePostById)
+  .delete(verifyJWT, verifyEditorRefeshJWT, handle_DeletePostById);
 
 export default router;

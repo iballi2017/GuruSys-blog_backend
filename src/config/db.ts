@@ -12,8 +12,8 @@ const MONGO_URI = `mongodb+srv://${env.DATABASE_USERNAME}:${env.DATABASE_PASSWOR
 
 mongoose
   .connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
   } as mongoose.ConnectOptions)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log(err));

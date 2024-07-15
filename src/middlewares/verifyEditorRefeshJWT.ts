@@ -12,11 +12,10 @@ declare module 'express-serve-static-core' {
   }
 }
 
-export const editorCredentialsFromRefeshToken = async (_req: express.Request, res: express.Response, next: express.NextFunction) => {
+export const verifyEditorRefeshJWT = async (_req: express.Request, res: express.Response, next: express.NextFunction) => {
   const envRefreshToken: string | any = env.REFRESH_TOKEN_SECRET ? env.REFRESH_TOKEN_SECRET : env.REFRESH_TOKEN_SECRET;
-
   const cookies = _req.cookies;
-  console.log('cookies: ', cookies);
+
   if (!cookies?.jwt)
     return res.status(401).json({
       message: 'Auth failed!',
@@ -25,6 +24,7 @@ export const editorCredentialsFromRefeshToken = async (_req: express.Request, re
   const refreshToken = cookies.jwt;
 
   const foundUser: any = await userModel.User.findOne({ refreshToken });
+
   if (!foundUser) return res.sendStatus(404);
 
   const roles = Object.values(foundUser.roles).filter(Boolean);
@@ -32,7 +32,10 @@ export const editorCredentialsFromRefeshToken = async (_req: express.Request, re
   if (!isEditor) return res.sendStatus(401);
 
   jwt.verify(refreshToken, envRefreshToken, (err: any, decoded: any) => {
-    if (err || foundUser.email != decoded.email) return res.sendStatus(403);
+    if (err || foundUser.email != decoded.email) {
+      console.log('====>: ', err.name === 'TokenExpiredError');
+      return res.sendStatus(403);
+    }
     _req.email = foundUser.email;
     _req.roles = foundUser.roles;
     _req.user_id = foundUser._id ? foundUser._id.toString() : '';

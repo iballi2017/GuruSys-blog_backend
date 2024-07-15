@@ -13,7 +13,7 @@ export interface BlogPost extends Document {
 
 const PostSchema: Schema = new Schema({
   title: { type: String, required: true },
-  body: { type: String, required: true, maxlength: 2000 },
+  body: { type: String, required: true },
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   approved: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },

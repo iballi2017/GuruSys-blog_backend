@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const app_1 = __importDefault(require("../src/app"));
+const src_1 = __importDefault(require("../src"));
 console.log('Hello programmer!!!');
-exports.default = app_1.default;
+exports.default = src_1.default;
 //# sourceMappingURL=index.js.map

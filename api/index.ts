@@ -1,5 +1,5 @@
 import app from '../src/app';
 
-console.log('Hello Ibrahim!!!');
+console.log('Hello programmer!!!');
 
 export default app;
